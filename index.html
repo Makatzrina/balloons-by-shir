@@ -261,11 +261,11 @@ function Gallery({ t }) {
 
 }
 
-function Calculator({ t, onQuoteChange }) {
+function Calculator({ t, onQuoteChange, onSelChange }) {
   const [sel, setSel] = useState({ pkg: "arch", flowers: "no", numbers: "no", location: "local" });
   const prices = { pkg: { arch: 150, hoop: 200, asymmetrical: 150 }, flowers: { no: 0, yes: 40 }, numbers: { no: 0, one: 15, two: 25 }, location: { local: 0, near: 15, mid: 25, far: 40 } };
   const total = Object.keys(sel).reduce((sum, k) => sum + (prices[k][sel[k]] || 0), 0);
-  useEffect(() => { onQuoteChange && onQuoteChange(total); }, [total]);
+  useEffect(() => { onQuoteChange && onQuoteChange(total); onSelChange && onSelChange(sel); }, [total, JSON.stringify(sel)]);
 
   const Option = ({ group, value, label, sublabel, children }) => {
     const active = sel[group] === value;
@@ -447,7 +447,19 @@ function FAQ({ t }) {
 
 }
 
-function Booking({ t, quote }) {
+function Booking({ t, quote, calcSel }) {
+  const selLabels = {
+    pkg: { arch: "Arch", hoop: "Hoop Arch", asymmetrical: "Asymmetrical Arch" },
+    flowers: { no: "No flowers", yes: "Yes, add flowers" },
+    numbers: { no: "No number balloons", one: "1 number balloon", two: "2 number balloons" },
+    location: { local: "Quarteira / Vilamoura (free delivery)", near: "Loulé / Faro / Olhão (+€15)", mid: "Albufeira / Silves (+€25)", far: "Lagos / Portimão (+€40)" },
+  };
+  const formatSel = (s) => s ? [
+    "Style: " + (selLabels.pkg[s.pkg] || s.pkg),
+    "Flowers: " + (selLabels.flowers[s.flowers] || s.flowers),
+    "Numbers: " + (selLabels.numbers[s.numbers] || s.numbers),
+    "Location: " + (selLabels.location[s.location] || s.location),
+  ].join(" | ") : "";
   const [form, setForm] = useState({ name: "", email: "", phone: "", date: "", eventType: "Birthday Party", message: "" });
   const [status, setStatus] = useState("idle");
   const inputStyle = { width: "100%", padding: "14px 16px", border: `1px solid ${t.fg}20`, borderRadius: t.name === "Dreamy" ? 12 : t.name === "Graphic" ? 0 : 6, fontFamily: t.body, fontSize: 15, color: t.fg, background: "transparent", outline: "none" };
@@ -472,6 +484,7 @@ function Booking({ t, quote }) {
         event_type: form.eventType,
         message: form.message,
         quote_estimate: "€" + quote + " (calculator estimate)",
+        calculator_selections: formatSel(calcSel),
       }),
     })
     .then(function(res) { return res.json(); })
@@ -584,6 +597,7 @@ function App() {
   const [theme, setTheme] = useState(TWEAK_DEFAULTS.theme || "A");
   const [tweaksVisible, setTweaksVisible] = useState(false);
   const [quote, setQuote] = useState(150);
+  const [calcSel, setCalcSel] = useState({ pkg: "arch", flowers: "no", numbers: "no", location: "local" });
 
   useEffect(() => {
     window.addEventListener('message', (e) => {
@@ -602,10 +616,10 @@ function App() {
       <Stats t={t} />
       <Gallery t={t} />
       <About t={t} />
-      <Calculator t={t} onQuoteChange={setQuote} />
+      <Calculator t={t} onQuoteChange={setQuote} onSelChange={setCalcSel} />
       <Instagram t={t} />
       <FAQ t={t} />
-      <Booking t={t} quote={quote} />
+      <Booking t={t} quote={quote} calcSel={calcSel} />
       <Footer t={t} />
       <TweaksPanel theme={theme} setTheme={setTheme} visible={tweaksVisible} />
     </div>);
