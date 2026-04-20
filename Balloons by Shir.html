@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Balloons by Shir | Algarve, Portugal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { overflow-x: hidden; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+
+const { useState, useEffect } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "theme": "B"
+} /*EDITMODE-END*/;
+
+// ─── THEMES ───────────────────────────────────────────────────────────────────
+const THEMES = {
+  A: {
+    name: "Party Mode",
+    font: "'Syne', sans-serif",
+    body: "'DM Sans', sans-serif",
+    bg: "#FFFBF5",
+    fg: "#12103A",
+    accent1: "#FF4D6D",
+    accent2: "#FFE566",
+    accent3: "#12103A",
+    navBg: "#12103A",
+    navFg: "#FFFFFF",
+    heroBg: "#12103A",
+    heroFg: "#FFFFFF",
+    heroAccent: "#FF4D6D",
+    heroAccent2: "#FFE566",
+    statsBg: "#FF4D6D",
+    statsFg: "#FFFFFF",
+    sectionBg2: "#12103A",
+    sectionFg2: "#FFFFFF",
+    calcBg: "#FFE566",
+    calcFg: "#12103A",
+    cardBorder: "2px solid rgba(18,16,58,0.12)",
+    cardRadius: "8px",
+    btnRadius: "4px",
+    badgeBg: "#FF4D6D",
+    badgeFg: "#FFFFFF",
+    faqBg: "#FFFBF5",
+    igBg: "#FF4D6D",
+    igFg: "#FFFFFF",
+    footerBg: "#12103A",
+    footerFg: "#FFFFFF",
+    footerAccent: "#FFE566"
+  },
+  B: {
+    name: "Dreamy",
+    font: "'Plus Jakarta Sans', sans-serif",
+    body: "'Plus Jakarta Sans', sans-serif",
+    bg: "#FFF9FF",
+    fg: "#2D1B4E",
+    accent1: "#C9B1FF",
+    accent2: "#FFB7A5",
+    accent3: "#A8F0CC",
+    navBg: "#FFFFFF",
+    navFg: "#2D1B4E",
+    heroBg: "linear-gradient(135deg, #EDE0FF 0%, #FFE5DD 100%)",
+    heroFg: "#2D1B4E",
+    heroAccent: "#9B72FF",
+    heroAccent2: "#FF7A5C",
+    statsBg: "#C9B1FF",
+    statsFg: "#2D1B4E",
+    sectionBg2: "#FFF0FB",
+    sectionFg2: "#2D1B4E",
+    calcBg: "#EDE0FF",
+    calcFg: "#2D1B4E",
+    cardBorder: "none",
+    cardRadius: "20px",
+    btnRadius: "50px",
+    badgeBg: "#A8F0CC",
+    badgeFg: "#1A4D3A",
+    faqBg: "#FFF0FB",
+    igBg: "linear-gradient(135deg, #C9B1FF, #FFB7A5)",
+    igFg: "#2D1B4E",
+    footerBg: "#2D1B4E",
+    footerFg: "#FFFFFF",
+    footerAccent: "#C9B1FF"
+  },
+  C: {
+    name: "Graphic",
+    font: "'Playfair Display', serif",
+    body: "'DM Sans', sans-serif",
+    bg: "#FFF8F0",
+    fg: "#1C1B18",
+    accent1: "#C8F05A",
+    accent2: "#FF6B35",
+    accent3: "#1C1B18",
+    navBg: "#1C1B18",
+    navFg: "#FFF8F0",
+    heroBg: "#FFF8F0",
+    heroFg: "#1C1B18",
+    heroAccent: "#C8F05A",
+    heroAccent2: "#FF6B35",
+    statsBg: "#1C1B18",
+    statsFg: "#C8F05A",
+    sectionBg2: "#1C1B18",
+    sectionFg2: "#FFF8F0",
+    calcBg: "#C8F05A",
+    calcFg: "#1C1B18",
+    cardBorder: "2px solid #1C1B18",
+    cardRadius: "0px",
+    btnRadius: "0px",
+    badgeBg: "#C8F05A",
+    badgeFg: "#1C1B18",
+    faqBg: "#FFF8F0",
+    igBg: "#1C1B18",
+    igFg: "#C8F05A",
+    footerBg: "#1C1B18",
+    footerFg: "#FFF8F0",
+    footerAccent: "#C8F05A"
+  }
+};
+
+// ─── COMPONENTS ───────────────────────────────────────────────────────────────
+
+function Nav({ t }) {
+  return (
+    <nav style={{ background: t.navBg, padding: "0 48px", height: 68, display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 100 }}>
+      <span style={{ fontFamily: t.font, fontWeight: 800, fontSize: 22, color: t.navFg, letterSpacing: "-0.5px" }}>
+        Balloons <span style={{ color: t.accent1 }}>by Shir</span>
+      </span>
+      <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+        {["Gallery", "About", "Pricing", "FAQ"].map((l) =>
+        <a key={l} href={`#${l.toLowerCase()}`} style={{ color: t.navFg, opacity: 0.7, textDecoration: "none", fontFamily: t.body, fontSize: 15, fontWeight: 500 }}>{l}</a>
+        )}
+        <a href="#booking" style={{ background: t.accent1, color: t.navBg === "#FFFFFF" ? "#2D1B4E" : "#FFFFFF", padding: "10px 24px", borderRadius: t.btnRadius, fontFamily: t.body, fontSize: 14, fontWeight: 700, textDecoration: "none", letterSpacing: 0.3 }}>Book Now</a>
+      </div>
+    </nav>);
+
+}
+
+function Hero({ t }) {
+  const isC = t.name === "Graphic";
+  const isB = t.name === "Dreamy";
+
+  return (
+    <section style={{ background: t.heroBg, padding: isC ? "100px 80px" : "80px 64px", minHeight: "88vh", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+      {/* decorative blobs */}
+      {isB && <>
+        <div style={{ position: "absolute", top: -80, right: -80, width: 400, height: 400, borderRadius: "50%", background: "rgba(201,177,255,0.3)", filter: "blur(60px)" }} />
+        <div style={{ position: "absolute", bottom: -60, left: "40%", width: 300, height: 300, borderRadius: "50%", background: "rgba(255,183,165,0.25)", filter: "blur(50px)" }} />
+      </>}
+      {t.name === "Party Mode" && <>
+        <div style={{ position: "absolute", top: -40, right: 80, width: 320, height: 320, borderRadius: "50%", background: "#FF4D6D", opacity: 0.15 }} />
+        <div style={{ position: "absolute", bottom: 60, right: -40, width: 200, height: 200, borderRadius: "50%", background: "#FFE566", opacity: 0.3 }} />
+      </>}
+
+      <div style={{ maxWidth: 860, position: "relative", zIndex: 1 }}>
+        <div style={{ display: "inline-block", background: t.badgeBg, color: t.badgeFg, fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", padding: "6px 18px", borderRadius: isB ? 50 : 4, marginBottom: 36 }}>
+          ✦ Algarve's Balloon Artist
+        </div>
+
+        <h1 style={{ fontFamily: t.font, fontWeight: 800, fontSize: isC ? "clamp(64px, 8vw, 108px)" : "clamp(60px, 8vw, 104px)", color: t.heroFg, lineHeight: 1.0, letterSpacing: isC ? "-2px" : "-1px", marginBottom: 28 }}>
+          {isC ? <>
+            <span>Balloon</span><br />
+            <em style={{ color: t.heroAccent, fontStyle: "italic" }}>Decorations</em><br />
+            <span>by Shir.</span>
+          </> : t.name === "Dreamy" ? <>
+            Make your<br />
+            <span style={{ color: t.heroAccent }}>celebration</span><br />
+            <em style={{ fontStyle: "normal" }}>unforgettable.</em>
+          </> : <>
+            Balloons<br />
+            <span style={{ color: t.heroAccent }}>by Shir.</span>
+          </>}
+        </h1>
+
+        <p style={{ fontFamily: t.body, fontSize: 18, color: t.heroFg, opacity: 0.65, maxWidth: 520, lineHeight: 1.7, marginBottom: 48 }}>
+          Custom balloon arches, garlands & setups for birthdays, bat mitzvahs and celebrations across the Algarve. Every piece made by hand, just for you.
+        </p>
+
+        <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+          <a href="#booking" style={{ background: t.heroAccent, color: isB ? "#2D1B4E" : isC ? "#1C1B18" : "#FFFFFF", padding: "18px 40px", borderRadius: t.btnRadius, fontFamily: t.body, fontSize: 16, fontWeight: 700, textDecoration: "none", display: "inline-block" }}>
+            Book Your Event
+          </a>
+          <a href="#pricing" style={{ background: "transparent", color: t.heroFg, padding: "18px 40px", borderRadius: t.btnRadius, fontFamily: t.body, fontSize: 16, fontWeight: 500, textDecoration: "none", display: "inline-block", border: `2px solid ${t.heroFg}`, opacity: 0.5 }}>
+            See Pricing
+          </a>
+        </div>
+      </div>
+
+      {/* Hero photo */}
+      <div style={{ position: "absolute", right: isC ? 0 : 60, top: "50%", transform: "translateY(-50%)", width: isC ? 480 : 420, height: isC ? "100%" : 520, borderRadius: isC ? 0 : isB ? 24 : 8, overflow: "hidden" }}>
+        <img src="uploads/pasted-1776612078521-0.png" alt="Balloon arch by Shir" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "left center" }} />
+      </div>
+    </section>);
+
+}
+
+function Stats({ t }) {
+  const stats = [
+  { n: "100%", l: "Custom Designs" },
+  { n: "From €200", l: "Full Setups" },
+  { n: "Algarve", l: "Based & Delivered" },
+  { n: "24h", l: "Response Time" }];
+
+  return (
+    <div style={{ background: t.statsBg, padding: "24px 64px", display: "flex", justifyContent: "center", gap: 80, flexWrap: "wrap" }}>
+      {stats.map((s) =>
+      <div key={s.n} style={{ textAlign: "center" }}>
+          <div style={{ fontFamily: t.font, fontSize: 28, fontWeight: 800, color: t.statsFg, letterSpacing: "-0.5px" }}>{s.n}</div>
+          <div style={{ fontFamily: t.body, fontSize: 11, color: t.statsFg, opacity: 0.7, letterSpacing: 2, textTransform: "uppercase", marginTop: 4 }}>{s.l}</div>
+        </div>
+      )}
+    </div>);
+
+}
+
+
+
+function Gallery({ t }) {
+  const items = [
+  { label: "Organic arch", img: "uploads/pasted-1776612078521-0.png" },
+  { label: "Pink garland", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&fit=crop&crop=center" },
+  { label: "Birthday backdrop", img: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=600&fit=crop&crop=center" },
+  { label: "Bat mitzvah setup", img: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&fit=crop&crop=center" },
+  { label: "Full event", img: "https://images.unsplash.com/photo-1596460107916-430662021049?w=600&fit=crop&crop=center" }];
+
+  return (
+    <section id="gallery" style={{ padding: "96px 64px", background: t.bg }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: t.accent1, marginBottom: 16 }}>Portfolio</p>
+        <h2 style={{ fontFamily: t.font, fontSize: "clamp(36px, 4vw, 52px)", fontWeight: 800, color: t.fg, marginBottom: 48, lineHeight: 1.1 }}>My Work</h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridTemplateRows: "auto", gap: 16 }}>
+          {items.map((item, i) =>
+          <div key={i} style={{ gridRow: i === 0 ? "span 2" : "span 1", borderRadius: t.cardRadius, aspectRatio: i === 0 ? "auto" : "1", minHeight: i === 0 ? 400 : 180, cursor: "pointer", transition: "transform 0.2s", overflow: "hidden", position: "relative" }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.02)"}
+          onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}>
+              <img src={item.img} alt={item.label} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "24px 16px 14px", background: "linear-gradient(to top, rgba(0,0,0,0.5), transparent)" }}>
+                <span style={{ fontFamily: t.body, fontSize: 12, color: "#fff", fontStyle: "italic" }}>{item.label}</span>
+              </div>
+            </div>
+          )}
+        </div>
+        <p style={{ textAlign: "center", fontFamily: t.body, fontSize: 14, color: t.fg, opacity: 0.4, marginTop: 24, fontStyle: "italic" }}>
+
+        </p>
+      </div>
+    </section>);
+
+}
+
+function Calculator({ t }) {
+  const [sel, setSel] = useState({ pkg: "arch", flowers: "no", numbers: "no", location: "local" });
+  const prices = { pkg: { arch: 150, hoop: 200, asymmetrical: 150 }, flowers: { no: 0, yes: 40 }, numbers: { no: 0, one: 15, two: 25 }, location: { local: 0, near: 15, mid: 25, far: 40 } };
+  const total = Object.keys(sel).reduce((sum, k) => sum + (prices[k][sel[k]] || 0), 0);
+
+  const Option = ({ group, value, label, sublabel, children }) => {
+    const active = sel[group] === value;
+    return (
+      <div onClick={() => setSel((s) => ({ ...s, [group]: value }))} style={{ border: active ? `2px solid ${t.accent1}` : t.cardBorder || `2px solid rgba(0,0,0,0.1)`, borderRadius: t.cardRadius, padding: "16px 14px", cursor: "pointer", background: active ? `${t.accent1}18` : "white", transition: "all 0.2s", display: "flex", flexDirection: "column", gap: 4 }}>
+        <span style={{ fontFamily: t.body, fontSize: 14, fontWeight: 600, color: t.fg }}>{label}</span>
+        <span style={{ fontFamily: t.body, fontSize: 12, color: active ? t.accent1 : t.fg, opacity: active ? 1 : 0.5, fontWeight: 600 }}>{sublabel}</span>
+      </div>);
+
+  };
+
+  return (
+    <section id="pricing" style={{ background: t.calcBg, padding: "96px 64px" }}>
+      <div style={{ maxWidth: 860, margin: "0 auto" }}>
+        <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: t.calcFg, opacity: 0.6, marginBottom: 16 }}>Instant Estimate</p>
+        <h2 style={{ fontFamily: t.font, fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 800, color: t.calcFg, marginBottom: 8, lineHeight: 1.0, letterSpacing: "-1px" }}>How much<br />will it cost?</h2>
+        <p style={{ fontFamily: t.body, fontSize: 16, color: t.calcFg, opacity: 0.6, marginBottom: 56 }}>Pick your options below — no commitment, just a starting point!</p>
+
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48 }}>
+          <div>
+            {/* Package */}
+            <div style={{ marginBottom: 32 }}>
+              <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: t.calcFg, opacity: 0.55, marginBottom: 12 }}>1. What do you need?</p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+                <Option group="pkg" value="arch" label="Arch" sublabel="from €150" />
+                <Option group="pkg" value="hoop" label="Hoop Arch" sublabel="from €200" />
+                <Option group="pkg" value="asymmetrical" label="Asymmetrical Arch" sublabel="from €150" />
+              </div>
+            </div>
+
+            {/* Flowers */}
+            <div style={{ marginBottom: 32 }}>
+              <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: t.calcFg, opacity: 0.55, marginBottom: 12 }}>2. Add flowers?</p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                <Option group="flowers" value="no" label="Just balloons" sublabel="+€0" />
+                <Option group="flowers" value="yes" label="Yes please!" sublabel="+€40" />
+              </div>
+            </div>
+
+            {/* Numbers */}
+            <div style={{ marginBottom: 32 }}>
+              <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: t.calcFg, opacity: 0.55, marginBottom: 12 }}>3. Number balloons?</p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+                <Option group="numbers" value="no" label="None" sublabel="+€0" />
+                <Option group="numbers" value="one" label="1 balloon" sublabel="+€15" />
+                <Option group="numbers" value="two" label="2 balloons" sublabel="+€25" />
+              </div>
+            </div>
+
+            {/* Location */}
+            <div>
+              <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: t.calcFg, opacity: 0.55, marginBottom: 12 }}>4. Location? (based in Quarteira)</p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                <Option group="location" value="local" label="Quarteira / Vilamoura" sublabel="free delivery" />
+                <Option group="location" value="near" label="Loulé / Faro / Olhão" sublabel="+€15" />
+                <Option group="location" value="mid" label="Albufeira / Silves" sublabel="+€25" />
+                <Option group="location" value="far" label="Lagos / Portimão" sublabel="+€40" />
+              </div>
+            </div>
+          </div>
+
+          {/* Result */}
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", background: t.calcFg, borderRadius: t.cardRadius, padding: "48px 32px", textAlign: "center" }}>
+            <p style={{ fontFamily: t.body, fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: t.calcBg, opacity: 0.5, marginBottom: 16 }}>Your estimate</p>
+            <p style={{ fontFamily: t.font, fontSize: 88, fontWeight: 800, color: t.accent1, lineHeight: 1, marginBottom: 8, transition: "transform 0.2s", letterSpacing: "-2px" }}>€{total}</p>
+            <p style={{ fontFamily: t.body, fontSize: 13, color: t.calcBg, opacity: 0.5, lineHeight: 1.6, marginBottom: 32, maxWidth: 240 }}>Starting estimate. I'll confirm the final price when you book!</p>
+            <a href="#booking" style={{ background: t.accent1, color: t.calcFg, padding: "16px 32px", borderRadius: t.btnRadius, fontFamily: t.body, fontSize: 15, fontWeight: 700, textDecoration: "none", display: "inline-block" }}>Book This Setup</a>
+          </div>
+        </div>
+      </div>
+    </section>);
+
+}
+
+function Instagram({ t }) {
+  const igPhotos = [
+  "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&fit=crop&crop=center",
+  "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=400&fit=crop&crop=center",
+  "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&fit=crop&crop=center",
+  "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=400&fit=crop&crop=center",
+  "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400&fit=crop&crop=center",
+  "https://images.unsplash.com/photo-1596460107916-430662021049?w=400&fit=crop&crop=center"];
+
+  return (
+    <section style={{ background: t.igBg, padding: "80px 64px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+        <div>
+          <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: t.igFg, opacity: 0.6, marginBottom: 16 }}>Follow Along</p>
+          <h2 style={{ fontFamily: t.font, fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 800, color: t.igFg, lineHeight: 1.1, marginBottom: 24 }}>
+            Watch the<br />magic happen
+          </h2>
+          <p style={{ fontFamily: t.body, fontSize: 16, color: t.igFg, opacity: 0.65, lineHeight: 1.7, marginBottom: 32 }}>
+            Follow me on Instagram to see behind-the-scenes, work-in-progress shots, and inspiration for your next event.
+          </p>
+          <a href="https://instagram.com" target="_blank" style={{ background: t.igFg, color: t.igBg.includes("gradient") ? "#FFFFFF" : t.igBg, padding: "14px 28px", borderRadius: t.btnRadius, fontFamily: t.body, fontSize: 14, fontWeight: 700, textDecoration: "none", display: "inline-block" }}>
+            Follow me · @balloonsbyshir
+          </a>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
+          {igPhotos.map((src, i) =>
+          <div key={i} style={{ aspectRatio: "1", borderRadius: t.cardRadius === "0px" ? 0 : 8, overflow: "hidden", cursor: "pointer", transition: "opacity 0.2s" }}
+          onMouseEnter={(e) => e.currentTarget.style.opacity = "0.8"}
+          onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}>
+              <img src={src} alt="balloon decoration" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </div>
+          )}
+        </div>
+      </div>
+    </section>);
+
+}
+
+function About({ t }) {
+  return (
+    <section id="about" style={{ background: t.bg, padding: "96px 64px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+        {/* Photo placeholder */}
+        <div style={{ aspectRatio: "4/5", background: `repeating-linear-gradient(45deg, ${t.accent1}12 0px, ${t.accent1}12 1px, transparent 1px, transparent 28px)`, borderRadius: t.cardRadius === "0px" ? 0 : 20, border: `2px solid ${t.accent1}25`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12 }}>
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke={t.accent1} strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span style={{ fontFamily: t.body, fontSize: 12, color: t.fg, opacity: 0.4, fontStyle: "italic" }}>Photo of Shir</span>
+        </div>
+
+        <div>
+          <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: t.accent1, marginBottom: 16 }}>About Me</p>
+          <h2 style={{ fontFamily: t.font, fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 800, color: t.fg, lineHeight: 1.1, marginBottom: 32 }}>Hi, I'm Shir!</h2>
+
+          <p style={{ fontFamily: t.body, fontSize: 16, color: t.fg, opacity: 0.7, lineHeight: 1.8, marginBottom: 20 }}>
+            I'm 12 years old and I'm honestly obsessed with balloons. It started when I was planning my own birthday party and I really wanted one of those big beautiful balloon arches I kept seeing online...
+          </p>
+          <p style={{ fontFamily: t.body, fontSize: 16, color: t.fg, opacity: 0.7, lineHeight: 1.8, marginBottom: 32 }}>
+            I searched everywhere in the Algarve. Nothing felt right. Either the style wasn't what I imagined, or it was way too expensive for what it was. So I thought... okay, I'll just try to do it myself. How hard can it be?
+          </p>
+
+          <blockquote style={{ borderLeft: `3px solid ${t.accent1}`, paddingLeft: 24, marginBottom: 32 }}>
+            <p style={{ fontFamily: t.font, fontSize: 19, fontStyle: "italic", color: t.fg, lineHeight: 1.7, marginBottom: 12 }}>
+              "It took me a whole afternoon, I watched like a hundred videos, and honestly? I fell completely in love with it. Everyone at my party kept asking who did the balloons. That's when I realised — this could actually be a real thing."
+            </p>
+            <span style={{ fontFamily: t.body, fontSize: 13, color: t.accent1, fontWeight: 700, letterSpacing: 1 }}>— Shir</span>
+          </blockquote>
+
+          <p style={{ fontFamily: t.body, fontSize: 16, color: t.fg, opacity: 0.7, lineHeight: 1.8 }}>
+            Now I make balloon decorations for other people's celebrations too! Every single arrangement is made by me, by hand, designed around what YOU want. I take it really seriously because I know how much your event matters to you.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FAQ({ t }) {
+  const [open, setOpen] = useState(null);
+  const faqs = [
+  { q: "How far in advance do I need to book?", a: "I recommend booking at least 2–3 weeks before your event, especially for weekends. That said, feel free to reach out even if it's last-minute — I'll always do my best to make it work!" },
+  { q: "Do you travel outside Quarteira?", a: "Yes! I cover the whole Algarve. Delivery fees depend on distance — use the price calculator above to get an instant estimate, or just ask me and I'll let you know." },
+  { q: "Can I choose my own colour palette?", a: "Absolutely! That's actually one of my favourite parts. Just send me a photo of your inspo, your venue, or even your outfit — I'll design something that ties it all together perfectly." },
+  { q: "Do you set up and take down?", a: "Yes — all packages include setup and takedown at the end of your event. You don't have to lift a finger. I'll coordinate with your venue directly." },
+  { q: "What payment methods do you accept?", a: "I accept bank transfer and MBWay. A 30% deposit is required to secure your date, with the balance due 48 hours before the event." }];
+
+
+  return (
+    <section id="faq" style={{ background: t.faqBg, padding: "96px 64px" }}>
+      <div style={{ maxWidth: 800, margin: "0 auto" }}>
+        <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: t.accent1, marginBottom: 16 }}>Questions</p>
+        <h2 style={{ fontFamily: t.font, fontSize: "clamp(36px, 4vw, 52px)", fontWeight: 800, color: t.fg, marginBottom: 56, lineHeight: 1.1 }}>FAQ</h2>
+        {faqs.map((faq, i) =>
+        <div key={i} style={{ borderTop: `1px solid ${t.fg}20`, padding: "24px 0" }}>
+            <button onClick={() => setOpen(open === i ? null : i)} style={{ width: "100%", background: "none", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, textAlign: "left" }}>
+              <span style={{ fontFamily: t.body, fontSize: 17, fontWeight: 600, color: t.fg, lineHeight: 1.4 }}>{faq.q}</span>
+              <span style={{ fontFamily: t.body, fontSize: 22, color: t.accent1, flexShrink: 0, marginTop: -2, transform: open === i ? "rotate(45deg)" : "none", transition: "transform 0.2s" }}>+</span>
+            </button>
+            {open === i &&
+          <p style={{ fontFamily: t.body, fontSize: 15, color: t.fg, opacity: 0.65, lineHeight: 1.7, marginTop: 16 }}>{faq.a}</p>
+          }
+          </div>
+        )}
+        <div style={{ borderTop: `1px solid ${t.fg}20` }} />
+      </div>
+    </section>);
+
+}
+
+function Booking({ t }) {
+  return (
+    <section id="booking" style={{ background: t.sectionBg2, padding: "96px 64px" }}>
+      <div style={{ maxWidth: 640, margin: "0 auto" }}>
+        <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: t.accent1, marginBottom: 16 }}>Get In Touch</p>
+        <h2 style={{ fontFamily: t.font, fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 800, color: t.sectionFg2, marginBottom: 12, lineHeight: 1.1 }}>Let's make your<br /><span style={{ color: t.accent1 }}>event beautiful.</span></h2>
+        <p style={{ fontFamily: t.body, fontSize: 16, color: t.sectionFg2, opacity: 0.55, marginBottom: 48, lineHeight: 1.7 }}>Fill in the form and I'll get back to you within 24 hours with a custom quote.</p>
+
+        <div style={{ background: t.bg, borderRadius: t.name === "Dreamy" ? 24 : 12, padding: 48 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+            {[{ l: "Your Name", p: "Sarah", t: "text" }, { l: "WhatsApp / Phone", p: "+351 ...", t: "tel" }].map((f) =>
+            <div key={f.l}>
+                <label style={{ fontFamily: t.body, fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: t.fg, opacity: 0.5, display: "block", marginBottom: 8 }}>{f.l}</label>
+                <input type={f.t} placeholder={f.p} style={{ width: "100%", padding: "14px 16px", border: `1px solid ${t.fg}20`, borderRadius: t.name === "Dreamy" ? 12 : t.name === "Graphic" ? 0 : 6, fontFamily: t.body, fontSize: 15, color: t.fg, background: "transparent", outline: "none" }} />
+              </div>
+            )}
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+            <div>
+              <label style={{ fontFamily: t.body, fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: t.fg, opacity: 0.5, display: "block", marginBottom: 8 }}>Event Date</label>
+              <input type="date" style={{ width: "100%", padding: "14px 16px", border: `1px solid ${t.fg}20`, borderRadius: t.name === "Dreamy" ? 12 : t.name === "Graphic" ? 0 : 6, fontFamily: t.body, fontSize: 15, color: t.fg, background: "transparent", outline: "none" }} />
+            </div>
+            <div>
+              <label style={{ fontFamily: t.body, fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: t.fg, opacity: 0.5, display: "block", marginBottom: 8 }}>Event Type</label>
+              <select style={{ width: "100%", padding: "14px 16px", border: `1px solid ${t.fg}20`, borderRadius: t.name === "Dreamy" ? 12 : t.name === "Graphic" ? 0 : 6, fontFamily: t.body, fontSize: 15, color: t.fg, background: "transparent", outline: "none" }}>
+                <option>Birthday Party</option>
+                <option>Bat / Bar Mitzvah</option>
+                <option>Baby Shower</option>
+                <option>Wedding / Engagement</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div style={{ marginBottom: 24 }}>
+            <label style={{ fontFamily: t.body, fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: t.fg, opacity: 0.5, display: "block", marginBottom: 8 }}>Tell me about your vision</label>
+            <textarea placeholder="Colours, theme, venue, anything helps!" style={{ width: "100%", padding: "14px 16px", border: `1px solid ${t.fg}20`, borderRadius: t.name === "Dreamy" ? 12 : t.name === "Graphic" ? 0 : 6, fontFamily: t.body, fontSize: 15, color: t.fg, background: "transparent", outline: "none", height: 100, resize: "vertical" }} />
+          </div>
+          <button style={{ width: "100%", background: t.accent1, color: t.name === "Dreamy" ? "#2D1B4E" : t.name === "Graphic" ? "#1C1B18" : "#FFFFFF", padding: "18px", border: "none", borderRadius: t.btnRadius, fontFamily: t.body, fontSize: 16, fontWeight: 700, cursor: "pointer" }}>
+            Send My Request
+          </button>
+        </div>
+      </div>
+    </section>);
+
+}
+
+function Footer({ t }) {
+  return (
+    <footer style={{ background: t.footerBg, padding: "32px 64px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <span style={{ fontFamily: t.font, fontSize: 20, fontWeight: 800, color: t.footerFg }}>
+        Balloons <span style={{ color: t.footerAccent }}>by Shir</span>
+      </span>
+      <span style={{ fontFamily: t.body, fontSize: 13, color: t.footerFg, opacity: 0.4 }}>Balloon decorations · Algarve, Portugal</span>
+    </footer>);
+
+}
+
+// ─── TWEAKS PANEL ─────────────────────────────────────────────────────────────
+function TweaksPanel({ theme, setTheme, visible }) {
+  if (!visible) return null;
+  return (
+    <div style={{ position: "fixed", bottom: 24, right: 24, background: "white", borderRadius: 16, padding: 24, boxShadow: "0 8px 40px rgba(0,0,0,0.18)", zIndex: 9999, width: 280 }}>
+      <p style={{ fontFamily: "system-ui", fontWeight: 700, fontSize: 13, marginBottom: 16, letterSpacing: 0.5 }}>Tweaks</p>
+      <p style={{ fontFamily: "system-ui", fontSize: 11, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", opacity: 0.4, marginBottom: 12 }}>Design Direction</p>
+      {Object.entries(THEMES).map(([key, th]) =>
+      <button key={key} onClick={() => {
+        setTheme(key);
+        window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { theme: key } }, '*');
+      }} style={{ width: "100%", textAlign: "left", padding: "12px 14px", marginBottom: 8, borderRadius: 10, border: theme === key ? `2px solid ${th.accent1}` : "2px solid rgba(0,0,0,0.08)", background: theme === key ? `${th.accent1}14` : "transparent", cursor: "pointer", fontFamily: "system-ui", fontSize: 14, fontWeight: theme === key ? 700 : 400 }}>
+          <span style={{ display: "block", fontWeight: 700, color: th.accent1, fontSize: 12, letterSpacing: 1, textTransform: "uppercase", marginBottom: 2 }}>{key}</span>
+          {th.name}
+        </button>
+      )}
+    </div>);
+
+}
+
+// ─── APP ──────────────────────────────────────────────────────────────────────
+function App() {
+  const [theme, setTheme] = useState(TWEAK_DEFAULTS.theme || "A");
+  const [tweaksVisible, setTweaksVisible] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener('message', (e) => {
+      if (e.data?.type === '__activate_edit_mode') setTweaksVisible(true);
+      if (e.data?.type === '__deactivate_edit_mode') setTweaksVisible(false);
+    });
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+  }, []);
+
+  const t = THEMES[theme];
+
+  return (
+    <div style={{ fontFamily: t.body }}>
+      <Nav t={t} />
+      <Hero t={t} />
+      <Stats t={t} />
+      <Gallery t={t} />
+      <About t={t} />
+      <Calculator t={t} />
+      <Instagram t={t} />
+      <FAQ t={t} />
+      <Booking t={t} />
+      <Footer t={t} />
+      <TweaksPanel theme={theme} setTheme={setTheme} visible={tweaksVisible} />
+    </div>);
+
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Balloons by Shir | Balloon Decorations in the Algarve, Portugal</title>
+<meta name="description" content="Beautiful balloon decorations for birthdays, bat mitzvahs & celebrations in the Algarve. Organic balloon arches, garlands & photo backdrops. Book Shir today!">
+<meta name="keywords" content="balloon decorations Algarve, birthday balloon arch Portugal, organic balloon garland Algarve, balloon decorator Algarve, kids birthday party Algarve">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blush: #f2cfc4;
+    --gold: #c9a96e;
+    --gold-light: #e8d5b0;
+    --cream: #fdf6f0;
+    --charcoal: #2a2320;
+    --soft-brown: #6b5044;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    background: var(--charcoal);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-left::after {
+    content: '';
+    position: absolute;
+    right: -40px;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    background: var(--charcoal);
+    clip-path: polygon(0 0, 0 100%, 100% 100%);
+    z-index: 3;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--charcoal);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 32px;
+    width: fit-content;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 5vw, 72px);
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .hero-title em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .hero-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 2vw, 26px);
+    color: var(--blush);
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.7;
+    max-width: 400px;
+    margin-bottom: 48px;
+  }
+
+  .cta-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--charcoal);
+    padding: 16px 36px;
+    border: none;
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(201,169,110,0.4);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--white);
+    padding: 16px 36px;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .hero-right {
+    position: relative;
+    background: var(--blush);
+    overflow: hidden;
+  }
+
+  .hero-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: linear-gradient(135deg, #f9e4dc 0%, #f0c9bb 50%, #e8d5b0 100%);
+  }
+
+  .balloon-icon {
+    font-size: 80px;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .balloon-icon:nth-child(2) { animation-delay: 0.5s; font-size: 60px; }
+  .balloon-icon:nth-child(3) { animation-delay: 1s; font-size: 50px; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .placeholder-text {
+    font-family: 'Playfair Display', serif;
+    color: var(--soft-brown);
+    font-size: 14px;
+    opacity: 0.7;
+    font-style: italic;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--gold);
+    padding: 20px 60px;
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--charcoal);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--charcoal);
+    opacity: 0.7;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* STORY SECTION */
+  .story {
+    padding: 100px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .story-img-placeholder {
+    aspect-ratio: 4/5;
+    background: linear-gradient(160deg, #f9e4dc, #e8d5b0);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .story-img-placeholder::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: rgba(201,169,110,0.2);
+  }
+
+  .story-img-placeholder .balloon-icon {
+    font-size: 60px;
+  }
+
+  .story-content {}
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 3.5vw, 48px);
+    line-height: 1.15;
+    margin-bottom: 24px;
+    color: var(--charcoal);
+  }
+
+  .section-title em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .story-text {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--soft-brown);
+    margin-bottom: 16px;
+  }
+
+  .story-quote {
+    border-left: 3px solid var(--gold);
+    padding-left: 20px;
+    margin: 32px 0;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 19px;
+    color: var(--charcoal);
+    line-height: 1.6;
+  }
+
+  /* SERVICES */
+  .services {
+    background: var(--charcoal);
+    padding: 100px 60px;
+  }
+
+  .services-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .services-header .section-title {
+    color: var(--white);
+  }
+
+  .services-header .section-label {
+    color: var(--gold);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .service-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 40px 32px;
+    transition: all 0.3s;
+  }
+
+  .service-card:hover {
+    background: rgba(201,169,110,0.1);
+    border-color: var(--gold);
+    transform: translateY(-4px);
+  }
+
+  .service-emoji {
+    font-size: 36px;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .service-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .service-price {
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  /* GALLERY */
+  .gallery {
+    padding: 100px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .gallery-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .gallery-item {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #f9e4dc, #e8d5b0);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+
+  .gallery-item:hover { transform: scale(1.02); }
+
+  .gallery-item:first-child {
+    grid-row: span 2;
+    aspect-ratio: auto;
+  }
+
+  .gallery-item .balloon-icon { font-size: 48px; }
+
+  .gallery-caption {
+    font-size: 12px;
+    color: var(--soft-brown);
+    opacity: 0.7;
+    font-style: italic;
+  }
+
+  /* BOOKING */
+  .booking {
+    background: linear-gradient(135deg, var(--blush) 0%, var(--gold-light) 100%);
+    padding: 100px 60px;
+    text-align: center;
+  }
+
+  .booking .section-title {
+    margin-bottom: 16px;
+  }
+
+  .booking-desc {
+    font-size: 17px;
+    color: var(--soft-brown);
+    margin-bottom: 48px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+  }
+
+  .booking-form {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 48px;
+    max-width: 560px;
+    margin: 0 auto;
+    box-shadow: 0 24px 64px rgba(42,35,32,0.12);
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--soft-brown);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid rgba(42,35,32,0.15);
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--charcoal);
+    background: var(--cream);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--gold);
+  }
+
+  .form-group textarea { height: 100px; resize: vertical; }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-submit {
+    width: 100%;
+    margin-top: 8px;
+    padding: 18px;
+    font-size: 16px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--charcoal);
+    padding: 40px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--white);
+  }
+
+  .footer-brand span { color: var(--gold); }
+
+  .footer-info {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-left::after { display: none; }
+    .hero-right { height: 300px; }
+    .story { grid-template-columns: 1fr; padding: 60px 30px; }
+    .story-img-placeholder { aspect-ratio: 16/9; }
+    .services { padding: 60px 30px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .gallery { padding: 60px 30px; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-item:first-child { grid-row: span 1; }
+    .booking { padding: 60px 30px; }
+    .booking-form { padding: 32px 24px; }
+    .stats-bar { gap: 32px; padding: 20px 30px; flex-wrap: wrap; }
+    footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 30px; }
+    .footer-info { text-align: center; }
+    .hero-left { padding: 60px 30px; }
+  }
+  /* CALCULATOR */
+  .calculator-section {
+    padding: 100px 60px;
+    background: var(--cream);
+    text-align: center;
+  }
+
+  .calc-intro {
+    font-size: 16px;
+    color: var(--soft-brown);
+    margin-bottom: 56px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .calculator {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .calc-step {
+    margin-bottom: 40px;
+    text-align: left;
+  }
+
+  .calc-step-label {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--soft-brown);
+    margin-bottom: 16px;
+  }
+
+  .calc-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .location-options {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .calc-option {
+    border: 2px solid rgba(42,35,32,0.1);
+    border-radius: 10px;
+    padding: 18px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .calc-option:hover {
+    border-color: var(--gold);
+    transform: translateY(-2px);
+  }
+
+  .calc-option.selected {
+    border-color: var(--gold);
+    background: linear-gradient(135deg, #fdf6f0, #f9ead8);
+    box-shadow: 0 4px 16px rgba(201,169,110,0.2);
+  }
+
+  .calc-option-emoji { font-size: 24px; }
+
+  .calc-option-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--charcoal);
+    line-height: 1.3;
+  }
+
+  .calc-option-price {
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .calc-result {
+    margin-top: 48px;
+    background: var(--charcoal);
+    border-radius: 12px;
+    padding: 48px;
+    text-align: center;
+  }
+
+  .calc-result-label {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 12px;
+  }
+
+  .calc-result-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 16px;
+    transition: all 0.3s;
+  }
+
+  .calc-result-note {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    max-width: 360px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .calculator-section { padding: 60px 30px; }
+    .calc-options { grid-template-columns: 1fr; }
+    .location-options { grid-template-columns: 1fr; }
+    .calc-result { padding: 32px 24px; }
+    .calc-result-price { font-size: 56px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <span class="badge">🎈 Algarve's Young Balloon Artist</span>
+    <h1 class="hero-title">Balloons<br><em>by Shir</em></h1>
+    <p class="hero-subtitle">Making your celebration unforgettable</p>
+    <p class="hero-desc">Hi! I'm Shir and I make custom balloon decorations for birthdays, bat mitzvahs and celebrations across the Algarve. Every arch and garland is made by me, by hand. I genuinely love doing this 🎈</p>
+    <div class="cta-group">
+      <a href="#booking" class="btn-primary">Book Your Event</a>
+      <a href="#gallery" class="btn-secondary">See My Work</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-placeholder">
+      <span class="balloon-icon">🎈</span>
+      <span class="balloon-icon">🎀</span>
+      <span class="balloon-icon">✨</span>
+      <p class="placeholder-text">Photos coming soon —<br>my first event is just around the corner!</p>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-number">100%</div>
+    <div class="stat-label">Custom Designs</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">From €200</div>
+    <div class="stat-label">Full Setups</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">Algarve</div>
+    <div class="stat-label">Based & Delivered</div>
+  </div>
+</div>
+
+<!-- STORY -->
+<section class="story" id="story">
+  <div class="story-img-placeholder">
+    <span class="balloon-icon">🎈</span>
+    <p class="placeholder-text">Photo of Shir at work<br><em>(coming soon)</em></p>
+  </div>
+  <div class="story-content">
+    <p class="section-label">How It All Started</p>
+    <h2 class="section-title">I couldn't find what<br><em>I was looking for.</em><br>So I made it myself.</h2>
+    <p class="story-text">Hi, I'm Shir! I'm 12 years old and I'm honestly obsessed with balloons. It started when I was planning my own birthday party and I really wanted one of those big beautiful balloon arches I kept seeing online...</p>
+    <p class="story-text">I searched everywhere in the Algarve. Nothing felt right. Either the style wasn't what I imagined, or it was way too expensive for what it was. So I thought... okay, I'll just try to do it myself. How hard can it be?</p>
+    <blockquote class="story-quote">"It took me a whole afternoon, I watched like a hundred videos, and honestly? I fell completely in love with it. Everyone at my party kept asking who did the balloons. That's when I realised — this could actually be a real thing."<br>— Shir</blockquote>
+    <p class="story-text">Now I make balloon decorations for other people's celebrations too! Every single arrangement is made by me, by hand, designed around what YOU want. I take it really seriously because I know how much your event matters to you.</p>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="services-header">
+    <p class="section-label">What Shir Creates</p>
+    <h2 class="section-title" style="color:white;">Balloon Decorations for<br><em style="color:var(--gold)">Every Celebration</em></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <span class="service-emoji">🌸</span>
+      <h3 class="service-name">Organic Balloon Arch</h3>
+      <p class="service-desc">This is my favourite thing to make. A big lush arch in your chosen colours — perfect as a photo backdrop or at the entrance. I can add gold foil accents, flowers and custom number balloons too. Just ask!</p>
+      <p class="service-price">From €250 · includes setup & takedown</p>
+    </div>
+    <div class="service-card">
+      <span class="service-emoji">✨</span>
+      <h3 class="service-name">Balloon Garland</h3>
+      <p class="service-desc">A flowing organic garland that frames tables, staircases or walls. I can do any colour palette you want — just send me a photo of your inspo and I'll make it happen!</p>
+      <p class="service-price">From €200 · per arrangement</p>
+    </div>
+    <div class="service-card">
+      <span class="service-emoji">🎂</span>
+      <h3 class="service-name">Full Event Package</h3>
+      <p class="service-desc">Arch + garland + number balloons + table centrepieces. I'll coordinate everything, deliver it and set it all up. Tell me your theme and colours and I'll design the whole thing around your vision!</p>
+      <p class="service-price">From €350 · custom quote available</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="gallery-header">
+    <p class="section-label">Portfolio</p>
+    <h2 class="section-title">My <em>Work</em></h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item">
+      <span class="balloon-icon">🎈</span>
+      <p class="gallery-caption">Organic arch · coming soon</p>
+    </div>
+    <div class="gallery-item">
+      <span class="balloon-icon">🎀</span>
+      <p class="gallery-caption">Pink & gold garland</p>
+    </div>
+    <div class="gallery-item">
+      <span class="balloon-icon">✨</span>
+      <p class="gallery-caption">Birthday backdrop</p>
+    </div>
+    <div class="gallery-item">
+      <span class="balloon-icon">🌸</span>
+      <p class="gallery-caption">Bat mitzvah setup</p>
+    </div>
+    <div class="gallery-item">
+      <span class="balloon-icon">🎉</span>
+      <p class="gallery-caption">Full event package</p>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<section class="calculator-section" id="calculator">
+  <p class="section-label">Instant Price Estimate</p>
+  <h2 class="section-title">How much will it <em>cost?</em></h2>
+  <p class="calc-intro">Answer a few quick questions and I'll give you an instant estimate! No commitment, just a starting point 😊</p>
+
+  <div class="calculator">
+
+    <!-- STEP 1: Package -->
+    <div class="calc-step">
+      <p class="calc-step-label">1. What would you like?</p>
+      <div class="calc-options" id="packageOptions">
+        <div class="calc-option selected" data-value="arch" onclick="selectOption(this, 'package')">
+          <span class="calc-option-emoji">🌸</span>
+          <span class="calc-option-name">Balloon Arch</span>
+          <span class="calc-option-price">from €250</span>
+        </div>
+        <div class="calc-option" data-value="garland" onclick="selectOption(this, 'package')">
+          <span class="calc-option-emoji">✨</span>
+          <span class="calc-option-name">Balloon Garland</span>
+          <span class="calc-option-price">from €200</span>
+        </div>
+        <div class="calc-option" data-value="full" onclick="selectOption(this, 'package')">
+          <span class="calc-option-emoji">🎂</span>
+          <span class="calc-option-name">Full Package</span>
+          <span class="calc-option-price">from €350</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Flowers -->
+    <div class="calc-step">
+      <p class="calc-step-label">2. Add flowers inside the balloon arrangement?</p>
+      <div class="calc-options" id="flowerOptions">
+        <div class="calc-option" data-value="no" onclick="selectOption(this, 'flowers')">
+          <span class="calc-option-emoji">🎈</span>
+          <span class="calc-option-name">Just balloons</span>
+          <span class="calc-option-price">+€0</span>
+        </div>
+        <div class="calc-option selected" data-value="yes" onclick="selectOption(this, 'flowers')">
+          <span class="calc-option-emoji">🌸</span>
+          <span class="calc-option-name">Yes, add flowers!</span>
+          <span class="calc-option-price">+€40</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: Number balloons -->
+    <div class="calc-step">
+      <p class="calc-step-label">3. Number balloons (age / year)?</p>
+      <div class="calc-options" id="numberOptions">
+        <div class="calc-option selected" data-value="no" onclick="selectOption(this, 'numbers')">
+          <span class="calc-option-emoji">🙅</span>
+          <span class="calc-option-name">Not needed</span>
+          <span class="calc-option-price">+€0</span>
+        </div>
+        <div class="calc-option" data-value="one" onclick="selectOption(this, 'numbers')">
+          <span class="calc-option-emoji">1️⃣</span>
+          <span class="calc-option-name">1 number balloon</span>
+          <span class="calc-option-price">+€20</span>
+        </div>
+        <div class="calc-option" data-value="two" onclick="selectOption(this, 'numbers')">
+          <span class="calc-option-emoji">2️⃣</span>
+          <span class="calc-option-name">2 number balloons</span>
+          <span class="calc-option-price">+€35</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: Location -->
+    <div class="calc-step">
+      <p class="calc-step-label">4. Where is your event? (I'm based in Quarteira)</p>
+      <div class="calc-options location-options" id="locationOptions">
+        <div class="calc-option selected" data-value="local" onclick="selectOption(this, 'location')">
+          <span class="calc-option-emoji">📍</span>
+          <span class="calc-option-name">Quarteira / Vilamoura / Almancil</span>
+          <span class="calc-option-price">free delivery</span>
+        </div>
+        <div class="calc-option" data-value="near" onclick="selectOption(this, 'location')">
+          <span class="calc-option-emoji">🚗</span>
+          <span class="calc-option-name">Loulé / Faro / Olhão</span>
+          <span class="calc-option-price">+€15</span>
+        </div>
+        <div class="calc-option" data-value="mid" onclick="selectOption(this, 'location')">
+          <span class="calc-option-emoji">🚙</span>
+          <span class="calc-option-name">Albufeira / Silves / Lagoa</span>
+          <span class="calc-option-price">+€25</span>
+        </div>
+        <div class="calc-option" data-value="far" onclick="selectOption(this, 'location')">
+          <span class="calc-option-emoji">🗺️</span>
+          <span class="calc-option-name">Lagos / Portimão / Tavira</span>
+          <span class="calc-option-price">+€40</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="calc-result">
+      <div class="calc-result-inner">
+        <p class="calc-result-label">Your estimated total</p>
+        <p class="calc-result-price" id="totalPrice">€290</p>
+        <p class="calc-result-note">This is a starting estimate. Final price may vary slightly based on your exact design. I'll confirm everything when you book!</p>
+        <a href="#booking" class="btn-primary" style="margin-top:24px; display:inline-block;">Book This Setup 🎈</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking" id="booking">
+  <p class="section-label">Book Shir for Your Event</p>
+  <h2 class="section-title">Let's Make Your<br><em>Celebration Beautiful</em></h2>
+  <p class="booking-desc">Tell me about your event and I'll get back to you within 24 hours with a custom quote! I'm available for events all across the Algarve 🎀</p>
+  <div class="booking-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="Sarah">
+      </div>
+      <div class="form-group">
+        <label>WhatsApp / Phone</label>
+        <input type="tel" placeholder="+351 ...">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Event Date</label>
+        <input type="date">
+      </div>
+      <div class="form-group">
+        <label>Event Type</label>
+        <select>
+          <option value="">Select...</option>
+          <option>Birthday Party</option>
+          <option>Bat / Bar Mitzvah</option>
+          <option>Baby Shower</option>
+          <option>Wedding / Engagement</option>
+          <option>Corporate Event</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Tell Me About Your Vision</label>
+      <textarea placeholder="Colours, theme, venue, number of guests... anything helps! I love hearing about your vision 🎈"></textarea>
+    </div>
+    <a href="#" class="btn-primary form-submit" style="text-align:center;">Send My Request 🎈</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Balloons <span>by Shir</span></div>
+  <div class="footer-info">
+    Balloon decorations · Algarve, Portugal<br>
+    Available for events across the region
+  </div>
+</footer>
+
+<script>
+  const prices = {
+    package: { arch: 250, garland: 200, full: 350 },
+    flowers: { no: 0, yes: 40 },
+    numbers: { no: 0, one: 20, two: 35 },
+    location: { local: 0, near: 15, mid: 25, far: 40 }
+  };
+
+  const selections = {
+    package: 'arch',
+    flowers: 'yes',
+    numbers: 'no',
+    location: 'local'
+  };
+
+  function selectOption(el, category) {
+    const group = el.parentElement;
+    group.querySelectorAll('.calc-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    selections[category] = el.dataset.value;
+    updateTotal();
+  }
+
+  function updateTotal() {
+    const total = Object.keys(selections).reduce((sum, key) => {
+      return sum + (prices[key][selections[key]] || 0);
+    }, 0);
+    const el = document.getElementById('totalPrice');
+    el.style.transform = 'scale(1.08)';
+    el.textContent = '€' + total;
+    setTimeout(() => el.style.transform = 'scale(1)', 200);
+  }
+
+  updateTotal();
+</script>
+</body>
+</html>
