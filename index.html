@@ -24,6 +24,16 @@ body { overflow-x: hidden; }
 
 const { useState, useEffect } = React;
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+  return isMobile;
+}
+
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "theme": "B"
 } /*EDITMODE-END*/;
@@ -134,13 +144,14 @@ const THEMES = {
 // ─── COMPONENTS ───────────────────────────────────────────────────────────────
 
 function Nav({ t }) {
+  const isMobile = useIsMobile();
   return (
-    <nav style={{ background: t.navBg, padding: "0 48px", height: 68, display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 100 }}>
+    <nav style={{ background: t.navBg, padding: isMobile ? "0 20px" : "0 48px", height: 68, display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 100 }}>
       <span style={{ fontFamily: t.font, fontWeight: 800, fontSize: 22, color: t.navFg, letterSpacing: "-0.5px" }}>
         Balloons <span style={{ color: t.accent1 }}>by Shir</span>
       </span>
-      <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
-        {["Gallery", "About", "Pricing", "FAQ"].map((l) =>
+      <div style={{ display: "flex", gap: isMobile ? 16 : 32, alignItems: "center" }}>
+        {!isMobile && ["Gallery", "About", "Pricing", "FAQ"].map((l) =>
         <a key={l} href={`#${l.toLowerCase()}`} style={{ color: t.navFg, opacity: 0.7, textDecoration: "none", fontFamily: t.body, fontSize: 15, fontWeight: 500 }}>{l}</a>
         )}
         <a href="#booking" style={{ background: t.accent1, color: t.navBg === "#FFFFFF" ? "#2D1B4E" : "#FFFFFF", padding: "10px 24px", borderRadius: t.btnRadius, fontFamily: t.body, fontSize: 14, fontWeight: 700, textDecoration: "none", letterSpacing: 0.3 }}>Book Now</a>
@@ -152,9 +163,10 @@ function Nav({ t }) {
 function Hero({ t }) {
   const isC = t.name === "Graphic";
   const isB = t.name === "Dreamy";
+  const isMobile = useIsMobile();
 
   return (
-    <section style={{ background: t.heroBg, padding: isC ? "100px 80px" : "80px 64px", minHeight: "88vh", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+    <section style={{ background: t.heroBg, padding: isMobile ? "60px 24px" : isC ? "100px 80px" : "80px 64px", minHeight: isMobile ? "auto" : "88vh", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative", overflow: "hidden" }}>
       {/* decorative blobs */}
       {isB && <>
         <div style={{ position: "absolute", top: -80, right: -80, width: 400, height: 400, borderRadius: "50%", background: "rgba(201,177,255,0.3)", filter: "blur(60px)" }} />
@@ -200,14 +212,18 @@ function Hero({ t }) {
       </div>
 
       {/* Hero photo */}
-      <div style={{ position: "absolute", right: isC ? 0 : 60, top: "50%", transform: "translateY(-50%)", width: isC ? 480 : 420, height: isC ? "100%" : 520, borderRadius: isC ? 0 : isB ? 24 : 8, overflow: "hidden" }}>
+      {!isMobile && <div style={{ position: "absolute", right: isC ? 0 : 60, top: "50%", transform: "translateY(-50%)", width: isC ? 480 : 420, height: isC ? "100%" : 520, borderRadius: isC ? 0 : isB ? 24 : 8, overflow: "hidden" }}>
         <img src="uploads/pasted-1776612078521-0.png" alt="Balloon arch by Shir" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "left center" }} />
-      </div>
+      </div>}
+      {isMobile && <div style={{ width: "100%", height: 240, borderRadius: isB ? 16 : 8, overflow: "hidden", marginTop: 32 }}>
+        <img src="uploads/pasted-1776612078521-0.png" alt="Balloon arch by Shir" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+      </div>}
     </section>);
 
 }
 
 function Stats({ t }) {
+  const isMobile = useIsMobile();
   const stats = [
   { n: "100%", l: "Custom Designs" },
   { n: "From €200", l: "Full Setups" },
@@ -215,7 +231,7 @@ function Stats({ t }) {
   { n: "24h", l: "Response Time" }];
 
   return (
-    <div style={{ background: t.statsBg, padding: "24px 64px", display: "flex", justifyContent: "center", gap: 80, flexWrap: "wrap" }}>
+    <div style={{ background: t.statsBg, padding: isMobile ? "24px 20px" : "24px 64px", display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(4, auto)", justifyContent: "center", gap: isMobile ? "20px 16px" : 80 }}>
       {stats.map((s) =>
       <div key={s.n} style={{ textAlign: "center" }}>
           <div style={{ fontFamily: t.font, fontSize: 28, fontWeight: 800, color: t.statsFg, letterSpacing: "-0.5px" }}>{s.n}</div>
@@ -229,6 +245,7 @@ function Stats({ t }) {
 
 
 function Gallery({ t }) {
+  const isMobile = useIsMobile();
   const items = [
   { label: "Organic arch", img: "uploads/pasted-1776612078521-0.png" },
   { label: "Pink garland", img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&fit=crop&crop=center" },
@@ -237,13 +254,13 @@ function Gallery({ t }) {
   { label: "Full event", img: "https://images.unsplash.com/photo-1596460107916-430662021049?w=600&fit=crop&crop=center" }];
 
   return (
-    <section id="gallery" style={{ padding: "96px 64px", background: t.bg }}>
+    <section id="gallery" style={{ padding: isMobile ? "64px 20px" : "96px 64px", background: t.bg }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: t.accent1, marginBottom: 16 }}>Portfolio</p>
         <h2 style={{ fontFamily: t.font, fontSize: "clamp(36px, 4vw, 52px)", fontWeight: 800, color: t.fg, marginBottom: 48, lineHeight: 1.1 }}>My Work</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridTemplateRows: "auto", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(3, 1fr)", gridTemplateRows: "auto", gap: 12 }}>
           {items.map((item, i) =>
-          <div key={i} style={{ gridRow: i === 0 ? "span 2" : "span 1", borderRadius: t.cardRadius, aspectRatio: i === 0 ? "auto" : "1", minHeight: i === 0 ? 400 : 180, cursor: "pointer", transition: "transform 0.2s", overflow: "hidden", position: "relative" }}
+          <div key={i} style={{ gridRow: (!isMobile && i === 0) ? "span 2" : "span 1", borderRadius: t.cardRadius, aspectRatio: "1", minHeight: isMobile ? 140 : (i === 0 ? 400 : 180), cursor: "pointer", transition: "transform 0.2s", overflow: "hidden", position: "relative" }}
           onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.02)"}
           onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}>
               <img src={item.img} alt={item.label} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
@@ -262,6 +279,7 @@ function Gallery({ t }) {
 }
 
 function Calculator({ t, onQuoteChange, onSelChange }) {
+  const isMobile = useIsMobile();
   const [sel, setSel] = useState({ pkg: "arch", flowers: "no", numbers: "no", location: "local" });
   const prices = { pkg: { arch: 150, hoop: 200, asymmetrical: 150 }, flowers: { no: 0, yes: 40 }, numbers: { no: 0, one: 15, two: 25 }, location: { local: 0, near: 15, mid: 25, far: 40 } };
   const total = Object.keys(sel).reduce((sum, k) => sum + (prices[k][sel[k]] || 0), 0);
@@ -278,13 +296,13 @@ function Calculator({ t, onQuoteChange, onSelChange }) {
   };
 
   return (
-    <section id="pricing" style={{ background: t.calcBg, padding: "96px 64px" }}>
+    <section id="pricing" style={{ background: t.calcBg, padding: isMobile ? "64px 20px" : "96px 64px" }}>
       <div style={{ maxWidth: 860, margin: "0 auto" }}>
         <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: t.calcFg, opacity: 0.6, marginBottom: 16 }}>Instant Estimate</p>
         <h2 style={{ fontFamily: t.font, fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 800, color: t.calcFg, marginBottom: 8, lineHeight: 1.0, letterSpacing: "-1px" }}>How much<br />will it cost?</h2>
         <p style={{ fontFamily: t.body, fontSize: 16, color: t.calcFg, opacity: 0.6, marginBottom: 56 }}>Pick your options below — no commitment, just a starting point!</p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48 }}>
+        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? 32 : 48 }}>
           <div>
             {/* Package */}
             <div style={{ marginBottom: 32 }}>
@@ -328,7 +346,7 @@ function Calculator({ t, onQuoteChange, onSelChange }) {
           </div>
 
           {/* Result */}
-          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", background: t.calcFg, borderRadius: t.cardRadius, padding: "48px 32px", textAlign: "center" }}>
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", background: t.calcFg, borderRadius: t.cardRadius, padding: isMobile ? "32px 24px" : "48px 32px", textAlign: "center" }}>
             <p style={{ fontFamily: t.body, fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: t.calcBg, opacity: 0.5, marginBottom: 16 }}>Your estimate</p>
             <p style={{ fontFamily: t.font, fontSize: 88, fontWeight: 800, color: t.accent1, lineHeight: 1, marginBottom: 8, transition: "transform 0.2s", letterSpacing: "-2px" }}>€{total}</p>
             <p style={{ fontFamily: t.body, fontSize: 13, color: t.calcBg, opacity: 0.5, lineHeight: 1.6, marginBottom: 32, maxWidth: 240 }}>Starting estimate. I'll confirm the final price when you book!</p>
@@ -341,6 +359,7 @@ function Calculator({ t, onQuoteChange, onSelChange }) {
 }
 
 function Instagram({ t }) {
+  const isMobile = useIsMobile();
   const igPhotos = [
   "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&fit=crop&crop=center",
   "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=400&fit=crop&crop=center",
@@ -350,8 +369,8 @@ function Instagram({ t }) {
   "https://images.unsplash.com/photo-1596460107916-430662021049?w=400&fit=crop&crop=center"];
 
   return (
-    <section style={{ background: t.igBg, padding: "80px 64px" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+    <section style={{ background: t.igBg, padding: isMobile ? "64px 20px" : "80px 64px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? 40 : 64, alignItems: "center" }}>
         <div>
           <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: t.igFg, opacity: 0.6, marginBottom: 16 }}>Follow Along</p>
           <h2 style={{ fontFamily: t.font, fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 800, color: t.igFg, lineHeight: 1.1, marginBottom: 24 }}>
@@ -379,9 +398,10 @@ function Instagram({ t }) {
 }
 
 function About({ t }) {
+  const isMobile = useIsMobile();
   return (
-    <section id="about" style={{ background: t.bg, padding: "96px 64px" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+    <section id="about" style={{ background: t.bg, padding: isMobile ? "64px 20px" : "96px 64px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? 40 : 80, alignItems: "center" }}>
         {/* Photo placeholder */}
         <div style={{ aspectRatio: "4/5", background: `repeating-linear-gradient(45deg, ${t.accent1}12 0px, ${t.accent1}12 1px, transparent 1px, transparent 28px)`, borderRadius: t.cardRadius === "0px" ? 0 : 20, border: `2px solid ${t.accent1}25`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12 }}>
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke={t.accent1} strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
@@ -492,8 +512,10 @@ function Booking({ t, quote, calcSel }) {
     .catch(function() { setStatus("error"); });
   };
 
+  const isMobile = useIsMobile();
+
   if (status === "success") return (
-    <section id="booking" style={{ background: t.sectionBg2, padding: "96px 64px" }}>
+    <section id="booking" style={{ background: t.sectionBg2, padding: isMobile ? "64px 20px" : "96px 64px" }}>
       <div style={{ maxWidth: 640, margin: "0 auto", textAlign: "center" }}>
         <div style={{ fontSize: 64, marginBottom: 24 }}>🎈</div>
         <h2 style={{ fontFamily: t.font, fontSize: 48, fontWeight: 800, color: t.sectionFg2, marginBottom: 16 }}>Request Sent!</h2>
@@ -502,13 +524,13 @@ function Booking({ t, quote, calcSel }) {
     </section>);
 
   return (
-    <section id="booking" style={{ background: t.sectionBg2, padding: "96px 64px" }}>
+    <section id="booking" style={{ background: t.sectionBg2, padding: isMobile ? "64px 20px" : "96px 64px" }}>
       <div style={{ maxWidth: 640, margin: "0 auto" }}>
         <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: t.accent1, marginBottom: 16 }}>Get In Touch</p>
         <h2 style={{ fontFamily: t.font, fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 800, color: t.sectionFg2, marginBottom: 12, lineHeight: 1.1 }}>Let's make your<br /><span style={{ color: t.accent1 }}>event beautiful.</span></h2>
         <p style={{ fontFamily: t.body, fontSize: 16, color: t.sectionFg2, opacity: 0.55, marginBottom: 48, lineHeight: 1.7 }}>Fill in the form and I'll get back to you within 24 hours with a custom quote.</p>
 
-        <div style={{ background: t.bg, borderRadius: t.name === "Dreamy" ? 24 : 12, padding: 48 }}>
+        <div style={{ background: t.bg, borderRadius: t.name === "Dreamy" ? 24 : 12, padding: isMobile ? 20 : 48 }}>
           {quote > 0 && (
             <div style={{ background: `${t.accent1}15`, border: `1px solid ${t.accent1}40`, borderRadius: 8, padding: "12px 16px", marginBottom: 24, display: "flex", alignItems: "center", gap: 10 }}>
               <span style={{ fontFamily: t.body, fontSize: 13, color: t.fg, opacity: 0.7 }}>Your calculator estimate:</span>
@@ -516,7 +538,7 @@ function Booking({ t, quote, calcSel }) {
             </div>
           )}
           <form onSubmit={handleSubmit}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16, marginBottom: 16 }}>
               <div>
                 <label style={labelStyle}>Your Name</label>
                 <input required name="name" type="text" placeholder="Sarah" value={form.name} onChange={handleChange} style={inputStyle} />
@@ -526,7 +548,7 @@ function Booking({ t, quote, calcSel }) {
                 <input required name="email" type="email" placeholder="sarah@email.com" value={form.email} onChange={handleChange} style={inputStyle} />
               </div>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
+            <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: 16, marginBottom: 16 }}>
               <div>
                 <label style={labelStyle}>WhatsApp / Phone</label>
                 <input required name="phone" type="tel" placeholder="+351 ..." value={form.phone} onChange={handleChange} style={inputStyle} />
@@ -562,8 +584,9 @@ function Booking({ t, quote, calcSel }) {
 }
 
 function Footer({ t }) {
+  const isMobile = useIsMobile();
   return (
-    <footer style={{ background: t.footerBg, padding: "32px 64px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <footer style={{ background: t.footerBg, padding: isMobile ? "24px 20px" : "32px 64px", display: "flex", flexDirection: isMobile ? "column" : "row", justifyContent: "space-between", alignItems: "center", gap: isMobile ? 8 : 0 }}>
       <span style={{ fontFamily: t.font, fontSize: 20, fontWeight: 800, color: t.footerFg }}>
         Balloons <span style={{ color: t.footerAccent }}>by Shir</span>
       </span>
