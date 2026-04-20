@@ -448,35 +448,35 @@ function FAQ({ t }) {
 }
 
 function Booking({ t, quote }) {
-  const [form, setForm] = useState({ name: "", phone: "", date: "", eventType: "Birthday Party", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", date: "", eventType: "Birthday Party", message: "" });
   const [status, setStatus] = useState("idle");
   const inputStyle = { width: "100%", padding: "14px 16px", border: `1px solid ${t.fg}20`, borderRadius: t.name === "Dreamy" ? 12 : t.name === "Graphic" ? 0 : 6, fontFamily: t.body, fontSize: 15, color: t.fg, background: "transparent", outline: "none" };
   const labelStyle = { fontFamily: t.body, fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: t.fg, opacity: 0.5, display: "block", marginBottom: 8 };
 
   const handleChange = (e) => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setStatus("sending");
-    try {
-      const res = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          access_key: "4b81fe93-4e1c-41d5-ad07-0349351ad22a",
-          subject: `🎈 New Booking Request from ${form.name}`,
-          from_name: "Balloons by Shir Website",
-          name: form.name,
-          phone: form.phone,
-          event_date: form.date,
-          event_type: form.eventType,
-          message: form.message,
-          quote_estimate: `€${quote} (calculator estimate)`,
-        }),
-      });
-      const data = await res.json();
-      setStatus(data.success ? "success" : "error");
-    } catch { setStatus("error"); }
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        access_key: "4b81fe93-4e1c-41d5-ad07-0349351ad22a",
+        subject: "🎈 New Booking Request from " + form.name,
+        from_name: "Balloons by Shir Website",
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        event_date: form.date,
+        event_type: form.eventType,
+        message: form.message,
+        quote_estimate: "€" + quote + " (calculator estimate)",
+      }),
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) { setStatus(data.success ? "success" : "error"); })
+    .catch(function() { setStatus("error"); });
   };
 
   if (status === "success") return (
@@ -509,25 +509,29 @@ function Booking({ t, quote }) {
                 <input required name="name" type="text" placeholder="Sarah" value={form.name} onChange={handleChange} style={inputStyle} />
               </div>
               <div>
-                <label style={labelStyle}>WhatsApp / Phone</label>
-                <input required name="phone" type="tel" placeholder="+351 ..." value={form.phone} onChange={handleChange} style={inputStyle} />
+                <label style={labelStyle}>Email</label>
+                <input required name="email" type="email" placeholder="sarah@email.com" value={form.email} onChange={handleChange} style={inputStyle} />
               </div>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
               <div>
+                <label style={labelStyle}>WhatsApp / Phone</label>
+                <input required name="phone" type="tel" placeholder="+351 ..." value={form.phone} onChange={handleChange} style={inputStyle} />
+              </div>
+              <div>
                 <label style={labelStyle}>Event Date</label>
                 <input name="date" type="date" value={form.date} onChange={handleChange} style={inputStyle} />
               </div>
-              <div>
-                <label style={labelStyle}>Event Type</label>
-                <select name="eventType" value={form.eventType} onChange={handleChange} style={inputStyle}>
-                  <option>Birthday Party</option>
-                  <option>Bat / Bar Mitzvah</option>
-                  <option>Baby Shower</option>
-                  <option>Wedding / Engagement</option>
-                  <option>Other</option>
-                </select>
-              </div>
+            </div>
+            <div style={{ marginBottom: 16 }}>
+              <label style={labelStyle}>Event Type</label>
+              <select name="eventType" value={form.eventType} onChange={handleChange} style={inputStyle}>
+                <option>Birthday Party</option>
+                <option>Bat / Bar Mitzvah</option>
+                <option>Baby Shower</option>
+                <option>Wedding / Engagement</option>
+                <option>Other</option>
+              </select>
             </div>
             <div style={{ marginBottom: 24 }}>
               <label style={labelStyle}>Tell me about your vision</label>
