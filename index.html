@@ -450,10 +450,8 @@ function About({ t }) {
   return (
     <section id="about" style={{ background: t.bg, padding: isMobile ? "64px 20px" : "96px 64px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? 40 : 80, alignItems: "center" }}>
-        {/* Photo placeholder */}
-        <div style={{ aspectRatio: "4/5", background: `repeating-linear-gradient(45deg, ${t.accent1}12 0px, ${t.accent1}12 1px, transparent 1px, transparent 28px)`, borderRadius: t.cardRadius === "0px" ? 0 : 20, border: `2px solid ${t.accent1}25`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12 }}>
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke={t.accent1} strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <span style={{ fontFamily: t.body, fontSize: 12, color: t.fg, opacity: 0.4, fontStyle: "italic" }}>Photo of Shir</span>
+        <div style={{ aspectRatio: "4/5", borderRadius: t.cardRadius === "0px" ? 0 : 20, overflow: "hidden" }}>
+          <img src="uploads/shir-photo.jpg" alt="Shir - Balloon Artist" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
 
         <div>
