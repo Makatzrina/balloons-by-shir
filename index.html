@@ -276,7 +276,7 @@ function Stats({ t }) {
   const isMobile = useIsMobile();
   const stats = [
   { n: "100%", l: "Custom Designs" },
-  { n: "From €200", l: "Full Setups" },
+  { n: "From €150", l: "Full Setups" },
   { n: "Algarve", l: "Based & Delivered" },
   { n: "24h", l: "Response Time" }];
 
@@ -410,38 +410,20 @@ function Calculator({ t, onQuoteChange, onSelChange }) {
 
 function Instagram({ t }) {
   const isMobile = useIsMobile();
-  const igPhotos = [
-  "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&fit=crop&crop=center",
-  "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=400&fit=crop&crop=center",
-  "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&fit=crop&crop=center",
-  "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=400&fit=crop&crop=center",
-  "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400&fit=crop&crop=center",
-  "https://images.unsplash.com/photo-1596460107916-430662021049?w=400&fit=crop&crop=center"];
 
   return (
-    <section style={{ background: t.igBg, padding: isMobile ? "64px 20px" : "80px 64px" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr", gap: isMobile ? 40 : 64, alignItems: "center" }}>
-        <div>
-          <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: t.igFg, opacity: 0.6, marginBottom: 16 }}>Follow Along</p>
-          <h2 style={{ fontFamily: t.font, fontSize: "clamp(32px, 3.5vw, 52px)", fontWeight: 800, color: t.igFg, lineHeight: 1.1, marginBottom: 24 }}>
-            Watch the<br />magic happen
-          </h2>
-          <p style={{ fontFamily: t.body, fontSize: 16, color: t.igFg, opacity: 0.65, lineHeight: 1.7, marginBottom: 32 }}>
-            Follow me on Instagram to see behind-the-scenes, work-in-progress shots, and inspiration for your next event.
-          </p>
-          <a href="https://instagram.com" target="_blank" style={{ background: t.igFg, color: t.igBg.includes("gradient") ? "#FFFFFF" : t.igBg, padding: "14px 28px", borderRadius: t.btnRadius, fontFamily: t.body, fontSize: 14, fontWeight: 700, textDecoration: "none", display: "inline-block" }}>
-            Follow me · @balloonsbyshir
-          </a>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
-          {igPhotos.map((src, i) =>
-          <div key={i} style={{ aspectRatio: "1", borderRadius: t.cardRadius === "0px" ? 0 : 8, overflow: "hidden", cursor: "pointer", transition: "opacity 0.2s" }}
-          onMouseEnter={(e) => e.currentTarget.style.opacity = "0.8"}
-          onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}>
-              <img src={src} alt="balloon decoration" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-            </div>
-          )}
-        </div>
+    <section style={{ background: t.igBg, padding: isMobile ? "40px 20px" : "48px 64px" }}>
+      <div style={{ maxWidth: 640, margin: "0 auto", textAlign: "center" }}>
+        <p style={{ fontFamily: t.body, fontSize: 12, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: t.igFg, opacity: 0.6, marginBottom: 16 }}>Follow Along</p>
+        <h2 style={{ fontFamily: t.font, fontSize: "clamp(28px, 3vw, 40px)", fontWeight: 800, color: t.igFg, lineHeight: 1.1, marginBottom: 16 }}>
+          Watch the magic happen
+        </h2>
+        <p style={{ fontFamily: t.body, fontSize: 16, color: t.igFg, opacity: 0.65, lineHeight: 1.7, marginBottom: 28 }}>
+          Follow me on Instagram to see behind-the-scenes, work-in-progress shots, and inspiration for your next event.
+        </p>
+        <a href="https://instagram.com" target="_blank" style={{ background: t.igFg, color: t.igBg.includes("gradient") ? "#FFFFFF" : t.igBg, padding: "14px 28px", borderRadius: t.btnRadius, fontFamily: t.body, fontSize: 14, fontWeight: 700, textDecoration: "none", display: "inline-block" }}>
+          Follow me · @balloonsbyshir
+        </a>
       </div>
     </section>);
 
